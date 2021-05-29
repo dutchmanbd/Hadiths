@@ -1,0 +1,2 @@
+rootProject.name = "Hadiths"
+include ':app'

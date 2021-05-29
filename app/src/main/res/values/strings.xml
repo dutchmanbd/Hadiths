@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Hadiths</string>
+    <string name="txt_internet_connection">Please connect your internet connection</string>
+</resources>
