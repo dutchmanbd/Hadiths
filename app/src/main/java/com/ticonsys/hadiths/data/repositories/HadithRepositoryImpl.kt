@@ -1,13 +1,12 @@
 package com.ticonsys.hadiths.data.repositories
 
-import NetworkBoundResource
 import com.ticonsys.hadiths.data.db.BookDao
 import com.ticonsys.hadiths.data.db.ChapterDao
 import com.ticonsys.hadiths.data.db.HadithDao
 import com.ticonsys.hadiths.data.db.entities.Book
 import com.ticonsys.hadiths.data.db.entities.Chapter
 import com.ticonsys.hadiths.data.db.entities.Hadith
-import com.ticonsys.hadiths.data.network.responses.ApiResponse
+import com.ticonsys.hadiths.data.network.middleware.NetworkBoundResource
 import com.ticonsys.hadiths.data.network.responses.ResponseDTO
 import com.ticonsys.hadiths.data.network.retrofit.HadithApiService
 import com.ticonsys.hadiths.utils.RateLimiter
