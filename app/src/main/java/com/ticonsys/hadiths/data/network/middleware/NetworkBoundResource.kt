@@ -1,3 +1,5 @@
+package com.ticonsys.hadiths.data.network.middleware
+
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import com.ticonsys.hadiths.data.network.responses.ApiEmptyResponse
