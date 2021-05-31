@@ -22,7 +22,14 @@ interface HadithDao {
         SELECT * FROM hadith
         WHERE bookNumber = :bookNumber"""
     )
-    fun loadHadith(bookNumber: String): Flow<List<Hadith>>
+    fun loadHadithList(bookNumber: String): Flow<List<Hadith>>
+
+    @Query(
+        """
+        SELECT * FROM hadith
+        WHERE hadithNumber = :hadithNumber"""
+    )
+    fun loadHadith(hadithNumber: String): Flow<Hadith>
 
 
     @Transaction

@@ -30,4 +30,10 @@ interface HadithApiService {
         @Path("bookNumber") bookNumber: String
     ): Flow<ApiResponse<ResponseDTO<List<Hadith>>>>
 
+    @GET("collections/{collectionName}/hadiths/{hadithNumber}")
+    fun getHadithDetail(
+        @Path("collectionName") collectionName: String,
+        @Path("hadithNumber") hadithNumber: String
+    ): Flow<ApiResponse<ResponseDTO<Hadith>>>
+
 }

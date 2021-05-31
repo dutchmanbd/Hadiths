@@ -25,6 +25,7 @@ class HadithRepositoryImpl(
     private val booksRateLimit = RateLimiter<String>(15, TimeUnit.MINUTES)
     private val chaptersRateLimit = RateLimiter<String>(15, TimeUnit.MINUTES)
     private val hadithRateLimit = RateLimiter<String>(15, TimeUnit.MINUTES)
+    private val hadithDetailRateLimit = RateLimiter<String>(15, TimeUnit.MINUTES)
 
     override suspend fun loadBooks(limit: Int, page: Int): Flow<Resource<List<Book>>> {
         return object : NetworkBoundResource<List<Book>, ResponseDTO<List<Book>>>() {
@@ -74,14 +75,6 @@ class HadithRepositoryImpl(
         collectionName: String,
         bookNumber: String
     ): Flow<Resource<List<Hadith>>> {
-//        val hadithNumber: String,
-//        val bookNumber: String,
-//        val chapterId: String,
-//        val collection: String,
-//        val body: String,
-//        val chapterNumber: String,
-//        val chapterTitle: String,
-//        val grades: List<Hadith.Grade> = emptyList()
         return object : NetworkBoundResource<List<Hadith>, ResponseDTO<List<Hadith>>>() {
             override suspend fun saveCallResult(item: ResponseDTO<List<Hadith>>) {
                 val hadith = item.data ?: emptyList()
@@ -94,8 +87,37 @@ class HadithRepositoryImpl(
                 )
             }
 
-            override fun loadFromDb() = hadithDao.loadHadith(bookNumber)
+            override fun loadFromDb() = hadithDao.loadHadithList(bookNumber)
             override suspend fun createCall() = apiService.getHadith(collectionName, bookNumber)
+
+            override fun onFetchFailed() {
+                hadithRateLimit.reset(bookNumber)
+            }
+        }.asFlow()
+    }
+
+    override suspend fun getHadithDetail(
+        collectionName: String,
+        hadithNumber: String
+    ): Flow<Resource<Hadith>> {
+        return object : NetworkBoundResource<Hadith, ResponseDTO<Hadith>>() {
+            override suspend fun saveCallResult(item: ResponseDTO<Hadith>) {
+                item.data ?: return
+                hadithDao.insert(item.data)
+            }
+            override fun shouldFetch(data: Hadith?): Boolean {
+                return data == null || hadithDetailRateLimit.shouldFetch(
+                    hadithNumber
+                )
+            }
+            override fun loadFromDb() = hadithDao.loadHadith(hadithNumber)
+
+            override suspend fun createCall() =
+                apiService.getHadithDetail(collectionName, hadithNumber)
+
+            override fun onFetchFailed() {
+                hadithDetailRateLimit.reset(hadithNumber)
+            }
         }.asFlow()
     }
 

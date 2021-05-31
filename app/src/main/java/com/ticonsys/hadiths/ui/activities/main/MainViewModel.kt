@@ -1,5 +1,6 @@
 package com.ticonsys.hadiths.ui.activities.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,6 +52,18 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getHadith(collectionName, bookNumber).collect { hadith ->
                 _hadithList.value = hadith
+            }
+        }
+    }
+
+    private val _hadith = MutableLiveData<Resource<Hadith>>()
+    val hadith: LiveData<Resource<Hadith>>
+        get() = _hadith
+
+    fun getHadithDetail(collectionName: String, hadithNumber: String){
+        viewModelScope.launch {
+            repository.getHadithDetail(collectionName, hadithNumber).collect { hadith ->
+                _hadith.value = hadith
             }
         }
     }

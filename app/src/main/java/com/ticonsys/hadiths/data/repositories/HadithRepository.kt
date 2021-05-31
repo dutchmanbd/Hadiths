@@ -14,4 +14,6 @@ interface HadithRepository {
     suspend fun fetchChapters(collectionName: String): Flow<Resource<List<Chapter>>>
 
     suspend fun getHadith(collectionName: String, bookNumber: String): Flow<Resource<List<Hadith>>>
+
+    suspend fun getHadithDetail(collectionName: String, hadithNumber: String): Flow<Resource<Hadith>>
 }

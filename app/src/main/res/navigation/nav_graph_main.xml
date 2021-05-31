@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/booksFragment"
         android:name="com.ticonsys.hadiths.ui.fragments.books.BooksFragment"
-        android:label="@string/txt_books" >
+        android:label="@string/txt_books">
         <action
             android:id="@+id/action_booksFragment_to_chapterFragment"
             app:destination="@id/chapterFragment" />
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/chapterFragment"
         android:name="com.ticonsys.hadiths.ui.fragments.chapters.ChapterFragment"
-        android:label="@string/txt_chapters" >
+        android:label="@string/txt_chapters">
         <argument
             android:name="arg_book_name"
             app:argType="string" />
@@ -26,12 +26,26 @@
     <fragment
         android:id="@+id/hadithFragment"
         android:name="com.ticonsys.hadiths.ui.fragments.hadith.HadithFragment"
-        android:label="@string/txt_hadiths" >
+        android:label="@string/txt_hadiths">
         <argument
             android:name="arg_book_name"
             app:argType="string" />
         <argument
             android:name="arg_book_number"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_hadithFragment_to_hadithDetailFragment"
+            app:destination="@id/hadithDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hadithDetailFragment"
+        android:name="com.ticonsys.hadiths.ui.fragments.hadith.HadithDetailFragment"
+        android:label="Details" >
+        <argument
+            android:name="arg_book_name"
+            app:argType="string" />
+        <argument
+            android:name="arg_hadith_number"
             app:argType="string" />
     </fragment>
 </navigation>

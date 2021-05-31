@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ticonsys.hadiths.R
 import com.ticonsys.hadiths.databinding.FragmentHadithBinding
@@ -45,12 +46,18 @@ class HadithFragment : BaseFragment<FragmentHadithBinding, MainViewModel>(
     private fun setupRecyclerView() {
         binding.rvHadith.adapter = hadithAdapter
         hadithAdapter.setOnItemClickListener { _, item ->
-
+            navigateToHadithDetailFragment(item.hadithNumber)
         }
     }
 
+    private fun navigateToHadithDetailFragment(hadithNumber: String) {
+        val detailAction = HadithFragmentDirections.actionHadithFragmentToHadithDetailFragment(
+            bookName, hadithNumber
+        )
+        findNavController().navigate(detailAction)
+    }
+
     private fun subscribeObservers() {
-        Log.d("HadithFragment", "subscribeObservers: $bookName, $bookNumber")
         viewModel.getHadith(bookName, bookNumber)
         viewModel.hadithList.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {

@@ -39,7 +39,11 @@ class HadithAdapter @Inject constructor(
                     )
                 }
             }
-
+            root.setOnClickListener { view ->
+                listener?.let { click ->
+                    click(view, hadith)
+                }
+            }
         }
     }
 }
