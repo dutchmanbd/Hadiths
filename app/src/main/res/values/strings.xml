@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Hadiths</string>
     <string name="txt_internet_connection">Please connect your internet connection</string>
+    <string name="txt_books">Books</string>
+    <string name="txt_chapters">Chapters</string>
+    <string name="txt_number_of_hadith">Number Of Hadith: %d</string>
+    <string name="txt_grade_format">Grade: %s, By: %s</string>
+    <string name="txt_hadiths">Hadiths</string>
 </resources>

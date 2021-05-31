@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.ticonsys.hadiths.R
 import com.ticonsys.hadiths.databinding.FragmentBooksBinding
 import com.ticonsys.hadiths.ui.activities.main.MainViewModel
 import com.ticonsys.hadiths.ui.adapters.BookAdapter
 import com.ticonsys.hadiths.ui.fragments.base.BaseFragment
 import com.ticonsys.hadiths.utils.Resource
+import com.ticonsys.hadiths.utils.Status
 import com.zxdmjr.material_utils.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -33,9 +35,6 @@ class BooksFragment : BaseFragment<FragmentBooksBinding, MainViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d(TAG, "onViewCreated: ${Locale.getDefault().displayLanguage}")
-        Log.d(TAG, "onViewCreated: ${Locale.getDefault().language}")
         setupRecyclerView()
         subscribeObservers()
     }
@@ -43,42 +42,28 @@ class BooksFragment : BaseFragment<FragmentBooksBinding, MainViewModel>(
     private fun setupRecyclerView() {
         binding.rvBooks.adapter = bookAdapter
         bookAdapter.setOnItemClickListener { _, item ->
-            fetchChapters(item.name)
+            navigateToChapterFragment(item.name)
         }
     }
 
-    private fun fetchChapters(name: String) {
-        viewModel.fetchChapters(name).observe(viewLifecycleOwner){ resource ->
-            when(resource){
-                is Resource.Error -> {
-                    binding.piBook.hide()
-                    requireContext().toast(resource.msg)
-                }
-                is Resource.Loading -> {
-                    binding.piBook.show()
-                }
-                is Resource.Success -> {
-                    binding.piBook.hide()
-                    Log.d(TAG, "fetchChapters: ${resource.data.size}")
-                }
-            }
-        }
+    private fun navigateToChapterFragment(name: String) {
+        val chapterAction = BooksFragmentDirections.actionBooksFragmentToChapterFragment(name)
+        findNavController().navigate(chapterAction)
     }
 
     private fun subscribeObservers() {
-        viewModel.fetchBooks().observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Error -> {
-                    binding.piBook.hide()
-                    requireContext().toast(resource.msg)
-                }
-                is Resource.Loading -> {
+        viewModel.fetchBooks()
+
+        viewModel.books.observe(viewLifecycleOwner) { resource ->
+            when (resource.status) {
+                Status.LOADING -> {
                     binding.piBook.show()
                 }
-                is Resource.Success -> {
+                Status.SUCCESS, Status.ERROR -> {
                     binding.piBook.hide()
                     bookAdapter.differ.submitList(resource.data)
                 }
+
             }
         }
     }

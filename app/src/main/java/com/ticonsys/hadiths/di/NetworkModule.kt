@@ -4,6 +4,7 @@ import android.content.Context
 import com.ticonsys.hadiths.BuildConfig
 import com.ticonsys.hadiths.data.db.BookDao
 import com.ticonsys.hadiths.data.db.ChapterDao
+import com.ticonsys.hadiths.data.db.HadithDao
 import com.ticonsys.hadiths.data.network.middleware.AuthInterceptor
 import com.ticonsys.hadiths.data.network.middleware.AuthInterceptorImpl
 import com.ticonsys.hadiths.data.network.middleware.ConnectivityInterceptor
@@ -11,8 +12,7 @@ import com.ticonsys.hadiths.data.network.middleware.ConnectivityInterceptorImpl
 import com.ticonsys.hadiths.data.network.retrofit.HadithApiService
 import com.ticonsys.hadiths.data.repositories.HadithRepository
 import com.ticonsys.hadiths.data.repositories.HadithRepositoryImpl
-import com.ticonsys.hadiths.utils.AppExecutors
-import com.ticonsys.hadiths.utils.LiveDataCallAdapterFactory
+import com.ticonsys.hadiths.utils.FlowCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,19 +62,20 @@ object NetworkModule {
         .baseUrl(BuildConfig.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(converterFactory)
-        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+        .addCallAdapterFactory(FlowCallAdapterFactory())
         .build()
         .create(HadithApiService::class.java)
+
 
     @Singleton
     @Provides
     fun provideHadithRepository(
-        appExecutors: AppExecutors,
         bookDao: BookDao,
         chapterDao: ChapterDao,
+        hadithDao: HadithDao,
         apiService: HadithApiService
     ): HadithRepository = HadithRepositoryImpl(
-        appExecutors, bookDao, chapterDao, apiService
+        bookDao, chapterDao, hadithDao, apiService
     )
 
 }

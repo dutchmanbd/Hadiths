@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ticonsys.hadiths.data.db.entities.Chapter
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChapterDao {
@@ -25,12 +26,12 @@ interface ChapterDao {
         SELECT * FROM chapters
         WHERE 1"""
     )
-    fun loadChapters(): LiveData<List<Chapter>>
+    fun loadChapters(): Flow<List<Chapter>>
 
     @Query(
         """
         SELECT * FROM chapters
         WHERE bookNumber =:bookNumber"""
     )
-    fun loadChapter(bookNumber: String): LiveData<Chapter>
+    fun loadChapter(bookNumber: String): Flow<Chapter>
 }

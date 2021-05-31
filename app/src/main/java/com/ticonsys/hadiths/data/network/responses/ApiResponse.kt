@@ -3,6 +3,7 @@ package com.ticonsys.hadiths.data.network.responses
 import retrofit2.Response
 import java.util.regex.Pattern
 
+
 /**
  * Common class used by API responses.
  * @param <T> the type of the response object
@@ -39,7 +40,7 @@ sealed class ApiResponse<T> {
 }
 
 /**
- * separate class for HTTP 204 resposes so that we can make ApiSuccessResponse's body non-null.
+ * separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null.
  */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 

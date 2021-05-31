@@ -6,10 +6,7 @@ import coil.ImageLoader
 import coil.util.CoilUtils
 import com.google.gson.GsonBuilder
 import com.ticonsys.hadiths.R
-import com.ticonsys.hadiths.data.db.BookDao
-import com.ticonsys.hadiths.data.db.ChapterDao
-import com.ticonsys.hadiths.data.db.HADITH_DATABASE_NAME
-import com.ticonsys.hadiths.data.db.HadithDatabase
+import com.ticonsys.hadiths.data.db.*
 import com.zxdmjr.material_utils.store.SharedPref
 import dagger.Module
 import dagger.Provides
@@ -71,4 +68,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideChapterDao(db: HadithDatabase): ChapterDao = db.getChapterDao()
+
+    @Singleton
+    @Provides
+    fun provideHadithDao(db: HadithDatabase): HadithDao = db.getHadithDao()
 }

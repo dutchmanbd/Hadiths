@@ -6,18 +6,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ticonsys.hadiths.data.db.entities.Book
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg books: Book)
+    suspend fun insert(vararg books: Book)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBooks(books: List<Book>)
+    suspend fun insertBooks(books: List<Book>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun createBookIfNotExists(book: Book): Long
+    suspend fun createBookIfNotExists(book: Book): Long
 
 
     @Query(
@@ -25,7 +26,7 @@ interface BookDao {
         SELECT * FROM books
         WHERE 1"""
     )
-    fun loadBooks(): LiveData<List<Book>>
+    fun loadBooks(): Flow<List<Book>?>
 
     @Query(
         """

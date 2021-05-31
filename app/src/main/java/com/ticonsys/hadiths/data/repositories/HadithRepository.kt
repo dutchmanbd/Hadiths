@@ -1,13 +1,17 @@
 package com.ticonsys.hadiths.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.ticonsys.hadiths.data.db.entities.Book
 import com.ticonsys.hadiths.data.db.entities.Chapter
+import com.ticonsys.hadiths.data.db.entities.Hadith
 import com.ticonsys.hadiths.utils.Resource
+import kotlinx.coroutines.flow.Flow
+
 
 interface HadithRepository {
 
-    fun loadBooks(limit: Int, page: Int): LiveData<Resource<List<Book>>>
+    suspend fun loadBooks(limit: Int, page: Int): Flow<Resource<List<Book>>>
 
-    fun fetchChapters(collectionName: String): LiveData<Resource<List<Chapter>>>
+    suspend fun fetchChapters(collectionName: String): Flow<Resource<List<Chapter>>>
+
+    suspend fun getHadith(collectionName: String, bookNumber: String): Flow<Resource<List<Hadith>>>
 }

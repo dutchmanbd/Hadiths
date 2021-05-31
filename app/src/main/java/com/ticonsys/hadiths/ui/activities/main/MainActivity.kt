@@ -37,6 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun setupNavController() {
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = getString(R.string.txt_books)
         NavigationUI.setupWithNavController(
             binding.toolbar,
             navController,

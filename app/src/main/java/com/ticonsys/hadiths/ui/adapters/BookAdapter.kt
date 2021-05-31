@@ -28,10 +28,10 @@ class BookAdapter @Inject constructor(
     override fun onBindViewHolder(holder: BaseViewHolder<SimpleBookItemBinding>, position: Int) {
         val book = differ.currentList[position]
         holder.binding.apply {
-            if(deviceLanguage == "ar"){
-                tvBookName.text = book.collection.last().title
-            } else {
-                tvBookName.text = book.collection.first().title
+            val collection = book.collection.firstOrNull { it.lang == deviceLanguage }
+            collection?.let {
+                tvBookName.text = it.title
+                tvShortDescription.text = it.shortIntro
             }
             root.setOnClickListener { view ->
                 listener?.let { click ->

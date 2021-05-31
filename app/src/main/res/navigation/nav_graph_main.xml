@@ -7,5 +7,31 @@
     <fragment
         android:id="@+id/booksFragment"
         android:name="com.ticonsys.hadiths.ui.fragments.books.BooksFragment"
-        android:label="BooksFragment" />
+        android:label="@string/txt_books" >
+        <action
+            android:id="@+id/action_booksFragment_to_chapterFragment"
+            app:destination="@id/chapterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chapterFragment"
+        android:name="com.ticonsys.hadiths.ui.fragments.chapters.ChapterFragment"
+        android:label="@string/txt_chapters" >
+        <argument
+            android:name="arg_book_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chapterFragment_to_hadithFragment"
+            app:destination="@id/hadithFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hadithFragment"
+        android:name="com.ticonsys.hadiths.ui.fragments.hadith.HadithFragment"
+        android:label="@string/txt_hadiths" >
+        <argument
+            android:name="arg_book_name"
+            app:argType="string" />
+        <argument
+            android:name="arg_book_number"
+            app:argType="string" />
+    </fragment>
 </navigation>
